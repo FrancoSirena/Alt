@@ -14,7 +14,8 @@ class FavoritesStore {
         this.locations.push(location);
     }
     removeFavoriteLocation(location) {
-        this.locations.splice(location);
+        var index = this.locations.indexOf(location);
+        this.locations.splice(index, 1);
     }
 }
 

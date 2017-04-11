@@ -1,0 +1,11 @@
+.floatRight {
+    float: right;
+    width: 45%;
+    height: 100%;
+}
+
+.floatLeft {
+    width:45%;
+    float:left;
+    height: 100%;
+}

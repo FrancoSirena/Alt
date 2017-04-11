@@ -21570,19 +21570,13 @@
 	  }
 	
 	  _createClass(AllLocations, [{
-	    key: 'addFave',
-	    value: function addFave(ev) {
-	      var location = _LocationStore2.default.getLocation(Number(ev.target.getAttribute('key')));
-	      _LocationActions2.default.favoriteLocation(location);
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'ul',
 	        null,
 	        this.props.locations.map(function (location, i) {
-	          return _react2.default.createElement(_ListItem2.default, { key: 'l' + location.id, canAdd: true, canRemove: false, title: location.name });
+	          return _react2.default.createElement(_ListItem2.default, { key: 'l' + location.id, location: location, canAdd: true, canRemove: false, title: location.name });
 	        })
 	      );
 	    }
@@ -21607,7 +21601,7 @@
 	        'ul',
 	        null,
 	        this.props.locations.map(function (location, i) {
-	          return _react2.default.createElement(_ListItem2.default, { key: 'f' + location.id, canRemove: true, canAdd: false, title: location.name });
+	          return _react2.default.createElement(_ListItem2.default, { key: 'f' + location.id, canRemove: true, canAdd: false, location: location, title: location.name });
 	        })
 	      );
 	    }
@@ -21637,24 +21631,32 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Locations'
+	          'div',
+	          { className: 'floatLeft' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Locations'
+	          ),
+	          _react2.default.createElement(
+	            _altContainer2.default,
+	            { store: _LocationStore2.default },
+	            _react2.default.createElement(AllLocations, null)
+	          )
 	        ),
 	        _react2.default.createElement(
-	          _altContainer2.default,
-	          { store: _LocationStore2.default },
-	          _react2.default.createElement(AllLocations, null)
-	        ),
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Favorites'
-	        ),
-	        _react2.default.createElement(
-	          _altContainer2.default,
-	          { store: _FavoritesStore2.default },
-	          _react2.default.createElement(Favorites, null)
+	          'div',
+	          { className: 'floatRight' },
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Favorites'
+	          ),
+	          _react2.default.createElement(
+	            _altContainer2.default,
+	            { store: _FavoritesStore2.default },
+	            _react2.default.createElement(Favorites, null)
+	          )
 	        )
 	      );
 	    }
@@ -23625,7 +23627,8 @@
 	    }, {
 	        key: 'removeFavoriteLocation',
 	        value: function removeFavoriteLocation(location) {
-	            this.locations.splice(location);
+	            var index = this.locations.indexOf(location);
+	            this.locations.splice(index, 1);
 	        }
 	    }]);
 	
@@ -24465,6 +24468,14 @@
 	
 	var _addCircle2 = _interopRequireDefault(_addCircle);
 	
+	var _LocationStore = __webpack_require__(179);
+	
+	var _LocationStore2 = _interopRequireDefault(_LocationStore);
+	
+	var _LocationActions = __webpack_require__(194);
+	
+	var _LocationActions2 = _interopRequireDefault(_LocationActions);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -24476,13 +24487,23 @@
 	var ListItem = function (_React$Component) {
 	    _inherits(ListItem, _React$Component);
 	
-	    function ListItem() {
+	    function ListItem(props) {
 	        _classCallCheck(this, ListItem);
 	
-	        return _possibleConstructorReturn(this, (ListItem.__proto__ || Object.getPrototypeOf(ListItem)).apply(this, arguments));
+	        return _possibleConstructorReturn(this, (ListItem.__proto__ || Object.getPrototypeOf(ListItem)).call(this, props));
 	    }
 	
 	    _createClass(ListItem, [{
+	        key: 'addFave',
+	        value: function addFave() {
+	            _LocationActions2.default.favoriteLocation(this.props.location);
+	        }
+	    }, {
+	        key: 'removeFave',
+	        value: function removeFave() {
+	            _LocationActions2.default.removeFavoriteLocation(this.props.location);
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            return _react2.default.createElement(
@@ -24491,11 +24512,11 @@
 	                this.props.title,
 	                this.props.canRemove ? _react2.default.createElement(
 	                    _IconButton2.default,
-	                    { tooltip: 'Remove' },
+	                    { tooltip: 'Remove', onClick: this.removeFave.bind(this) },
 	                    _react2.default.createElement(_removeCircle2.default, null)
-	                ) : this.props.canAdd ? _react2.default.createElement(
+	                ) : this.props.canAdd && !this.props.location.has_favorite ? _react2.default.createElement(
 	                    _IconButton2.default,
-	                    { tooltip: 'Add' },
+	                    { tooltip: 'Add', onClick: this.addFave.bind(this) },
 	                    _react2.default.createElement(_addCircle2.default, null)
 	                ) : ""
 	            );
