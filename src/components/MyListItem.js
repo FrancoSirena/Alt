@@ -4,10 +4,15 @@ import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
 import LocationStore from '../stores/LocationStore';
 import LocationActions from '../actions/LocationActions';
+import Chip from 'material-ui/Chip';
 import Avatar from 'material-ui/Avatar';
-import FontIcon from 'material-ui/FontIcon';
+import ActionList from 'material-ui/svg-icons/action/list';
+import ActionCheckCircle from 'material-ui/svg-icons/action/check-circle';
 import { ItemTypes } from '../Constants';
 import { DragSource } from 'react-dnd';
+
+import {green300, indigo900} from 'material-ui/styles/colors';
+
 
 const MyListItemSource = {
   beginDrag(props) {
@@ -44,9 +49,9 @@ class MyListItem extends React.Component{
     render(){
         const { connectDragSource, isDragging } = this.props;
         const opacity = isDragging ? 0.4 : 1;
-        return connectDragSource(<span style={{opacity}} className="myItem"><Avatar
-          icon={<FontIcon className="muidocs-icon-communication-voicemail" />}
-        /> {this.props.title}</span>)
+        const backgroundColor= this.props.location.has_favorite ? green300 : null;
+        return connectDragSource(<div style={{opacity}} className="myItem"><Chip backgroundColor={backgroundColor}><Avatar
+          icon={!this.props.location.has_favorite ? <ActionList /> : <ActionCheckCircle  />}/> {this.props.title}</Chip></div>)
     }
 }
 

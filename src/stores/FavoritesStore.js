@@ -11,7 +11,9 @@ class FavoritesStore {
         });
     }
     addFavoriteLocation(location) {
-        this.locations.push(location);
+        var index = this.locations.filter((obj) => {if (obj.name == location.name) return true; else return false;});
+        if (index.length == 0)
+            this.locations.push(location);
     }
     removeFavoriteLocation(location) {
         var index = this.locations.indexOf(location);

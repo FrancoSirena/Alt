@@ -23,7 +23,9 @@ class LocationStore {
     this.exportAsync(LocationSource);
   }
   removeFavoriteLocation(location) {
-    this.locations.find(c=> c.id == location.id).has_favorite = false;
+      var index = this.locations.findIndex((obj) => {if (obj.name == location.name) return true; else return false;});
+      if (index > -1)
+        this.locations[index].has_favorite = false;
   }
 
   handleUpdateLocations(locations) {

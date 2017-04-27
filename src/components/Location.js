@@ -18,13 +18,13 @@ class Locations extends React.Component{
     return (
       <div>
       <div className="floatLeft" >
-        <h1>Locations</h1>
+        <h1>Foods To Buy</h1>
         <AltContainer store={LocationStore}>
           <AllLocations />
         </AltContainer>
       </div>
       <div className="floatRight" >
-        <h1>Favorites</h1>
+        <h1>Foods Bought</h1>
         <AltContainer store={FavoritesStore}>
           <Favorites />
         </AltContainer>
