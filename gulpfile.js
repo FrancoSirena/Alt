@@ -1,7 +1,5 @@
-import gulp  from 'gulp';
-import babel from 'gulp-babel';
-import gls from 'gulp-live-server';
-var path = require('path');
+const gulp = require('gulp');
+const gls = require('gulp-live-server');
 var webpack = require('webpack');
 
 gulp.task("webpack", function(callback) { 
